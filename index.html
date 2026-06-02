@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --rule: #c8b89a;
+    --accent: #8b3a1e;
+    --light: #faf8f3;
+    --muted: #7a6e60;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /* HEADER */
+  .exam-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 18px 32px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 4px solid var(--accent);
+  }
+  .exam-header .inst {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .exam-header .title-block { text-align: right; }
+  .exam-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .exam-header .subtitle {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-top: 2px;
+  }
+
+  /* META BAR */
+  .meta-bar {
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .meta-field {
+    padding: 8px 16px;
+    border-right: 1px solid var(--rule);
+    font-size: 12px;
+  }
+  .meta-field:last-child { border-right: none; }
+  .meta-field label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .meta-field input, .meta-field select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    padding: 1px 0;
+  }
+  .meta-field input::placeholder { color: var(--rule); }
+
+  /* SCORE BAR */
+  .score-bar {
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+    border-bottom: 3px solid var(--accent);
+  }
+  .score-cell {
+    padding: 7px 14px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    font-size: 11px;
+  }
+  .score-cell:last-child { border-right: none; }
+  .score-cell .sc-label {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    display: block;
+    margin-bottom: 1px;
+  }
+  .score-cell strong { font-size: 15px; font-family: 'Playfair Display', serif; }
+
+  /* BODY LAYOUT */
+  .exam-body { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  /* SECTION */
+  .section { margin-bottom: 36px; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 700;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* POEM CARD */
+  .poem-card {
+    background: var(--light);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 18px 24px 16px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .poem-card::before {
+    content: '❝';
+    position: absolute;
+    top: 10px; right: 16px;
+    font-size: 36px;
+    color: var(--rule);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .poem-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .poem-text {
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre-line;
+  }
+
+  /* QUESTION GRID */
+  .q-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .q-grid.two-col { grid-template-columns: 1fr 1fr; }
+  .q-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+
+  .q-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .q-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .q-text {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--ink);
+    flex: 1;
+  }
+  .options { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+  .option:hover { background: var(--cream); border-color: var(--rule); }
+  .option input[type="radio"] { accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .option span { font-size: 12px; line-height: 1.35; }
+  .option.selected { background: #f5e9e3; border-color: var(--accent); }
+
+  /* OPEN QUESTION */
+  .open-q {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 14px 16px 12px;
+    margin-bottom: 10px;
+  }
+  .open-q .q-header {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px;
+  }
+  .open-q textarea {
+    width: 100%;
+    min-height: 70px;
+    border: 1px solid var(--rule);
+    background: var(--light);
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    color: var(--ink);
+    padding: 8px 10px;
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  .open-q textarea:focus { border-color: var(--accent); }
+
+  /* METRIC GRID */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .metric-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 12px 13px;
+  }
+  .metric-card .q-num { margin-bottom: 6px; }
+  .metric-poem {
+    font-style: italic;
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: var(--ink);
+    border-left: 2px solid var(--rule);
+    padding-left: 8px;
+    margin-bottom: 10px;
+    white-space: pre-line;
+  }
+  .metric-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .metric-field label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .metric-field input, .metric-field select {
+    width: 100%;
+    background: var(--light);
+    border: 1px solid var(--rule);
+    padding: 4px 6px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+  }
+  .metric-field input:focus, .metric-field select:focus { border-color: var(--accent); }
+  .metric-field.full { grid-column: 1 / -1; }
+
+  /* HISTORICAL TYPE */
+  .hist-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 12px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hist-poem {
+    font-style: italic;
+    font-size: 11.5px;
+    line-height: 1.7;
+    border-left: 2px solid var(--rule);
+    padding-left: 8px;
+    white-space: pre-line;
+  }
+  .hist-field { margin-top: 6px; }
+  .hist-field label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .hist-field select {
+    width: 100%;
+    background: var(--light);
+    border: 1px solid var(--rule);
+    padding: 5px 7px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+  }
+  .hist-field select:focus { border-color: var(--accent); }
+
+  /* TRANSLATION CARD */
+  .trans-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .trans-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 13px 13px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .trans-poem {
+    font-style: italic;
+    font-size: 11.5px;
+    line-height: 1.75;
+    border-left: 2px solid var(--rule);
+    padding-left: 8px;
+    white-space: pre-line;
+  }
+  .trans-instr {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .trans-card textarea {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid var(--rule);
+    background: var(--light);
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    color: var(--ink);
+    padding: 6px 8px;
+    resize: vertical;
+    outline: none;
+    flex: 1;
+  }
+  .trans-card textarea:focus { border-color: var(--accent); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--accent), var(--rule), transparent);
+    margin: 28px 0;
+  }
+
+  /* SUBMIT */
+  .submit-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--ink);
+    border-top: 3px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    z-index: 100;
+  }
+  .progress-info {
+    color: var(--paper);
+    font-size: 12px;
+    opacity: 0.75;
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    max-width: 300px;
+    margin: 0 20px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .btn-submit {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 9px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+  }
+  .btn-submit:hover { opacity: 0.85; }
+
+  /* RESULT MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,18,8,0.75);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--light);
+    border: 2px solid var(--accent);
+    padding: 36px 40px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+  }
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .modal .score-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin: 16px 0 8px;
+  }
+  .modal .score-sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .modal-close {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 9px 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 800px) {
+    .q-grid { grid-template-columns: 1fr 1fr; }
+    .metric-grid { grid-template-columns: 1fr 1fr; }
+    .trans-grid { grid-template-columns: 1fr 1fr; }
+    .meta-bar { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="exam-header">
+  <div>
+    <div class="inst">Campus Tlaquepaque · Academia de Español</div>
+    <div class="inst" style="margin-top:4px;">Ciclo 2C-2026 · Ordinario</div>
+  </div>
+  <div class="title-block">
+    <h1>Taller de Lectura y Redacción I</h1>
+    <div class="subtitle">Primer Parcial · Cuatrimestre Primero</div>
+  </div>
+</div>
+
+<!-- META BAR -->
+<div class="meta-bar">
+  <div class="meta-field">
+    <label>Nombre del alumno</label>
+    <input type="text" placeholder="Escribe tu nombre completo">
+  </div>
+  <div class="meta-field">
+    <label>ID</label>
+    <input type="text" placeholder="Número de ID">
+  </div>
+  <div class="meta-field">
+    <label>Docente</label>
+    <input type="text" value="Rafael Páez" readonly>
+  </div>
+  <div class="meta-field">
+    <label>Grupo · Fecha</label>
+    <input type="text" placeholder="Grupo / Fecha">
+  </div>
+</div>
+
+<!-- SCORE BAR -->
+<div class="score-bar">
+  <div class="score-cell"><span class="sc-label">Materia</span>Taller de Lectura y Redacción 1</div>
+  <div class="score-cell"><span class="sc-label">Entregable 1</span><strong>30%</strong></div>
+  <div class="score-cell"><span class="sc-label">Entregable 2</span><strong>70%</strong></div>
+  <div class="score-cell"><span class="sc-label">Extras</span><strong>—</strong></div>
+  <div class="score-cell"><span class="sc-label">Calificación</span><strong id="live-score">—</strong></div>
+</div>
+
+<!-- EXAM BODY -->
+<div class="exam-body">
+
+  <!-- ══════════ SECCIÓN 1: Lluvia ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">I</div>
+      <div class="section-title">Lee el siguiente poema y responde las preguntas de opción múltiple</div>
+    </div>
+
+    <div class="poem-card">
+      <div class="poem-title">Lluvia · Pablo Neruda (fragmento)</div>
+      <div class="poem-text">Lluvia, lluvia fría de noviembre,
+caes sobre mi frente como un ala,
+y tu silencio es un cristal que escala
+el muro de mi sueño hasta su cumbre.
+
+Oh lluvia, eres el alma que se humbre
+cuando el amor se apaga y se resbala;
+eres la voz oscura que señala
+el fin de lo que brilla y se vislumbre.
+
+No hay diferencia entre el agua y el llanto:
+ambos descienden solos por la cara,
+ambos son fríos, y a los dos se acalla.
+
+Y en ti, lluvia, me pierdo entre tu canto,
+como quien ama sin que nadie ampara
+la herida abierta que jamás se halla.</div>
+    </div>
+
+    <div class="q-grid" id="sec1-grid">
+      <div class="q-card">
+        <div class="q-num">Pregunta 1</div>
+        <div class="q-text">¿Qué figura retórica aparece en: <em>"tu silencio es un cristal que escala el muro de mi sueño"</em>?</div>
+        <div class="options" data-correct="Metáfora">
+          <label class="option"><input type="radio" name="q1" value="Metonimia"><span>Metonimia</span></label>
+          <label class="option"><input type="radio" name="q1" value="Metáfora"><span>Metáfora</span></label>
+          <label class="option"><input type="radio" name="q1" value="Anáfora"><span>Anáfora</span></label>
+          <label class="option"><input type="radio" name="q1" value="Hipérbaton"><span>Hipérbaton</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 2</div>
+        <div class="q-text">¿Qué figura retórica hay en: <em>"No hay diferencia entre el agua y el llanto"</em>?</div>
+        <div class="options" data-correct="Comparación / Símil">
+          <label class="option"><input type="radio" name="q2" value="Paradoja"><span>Paradoja</span></label>
+          <label class="option"><input type="radio" name="q2" value="Sinestesia"><span>Sinestesia</span></label>
+          <label class="option"><input type="radio" name="q2" value="Comparación / Símil"><span>Comparación / Símil</span></label>
+          <label class="option"><input type="radio" name="q2" value="Personificación"><span>Personificación</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 3</div>
+        <div class="q-text">¿Cuál es la voz poética del poema?</div>
+        <div class="options" data-correct="Íntima y melancólica">
+          <label class="option"><input type="radio" name="q3" value="Distante y neutral"><span>Distante y neutral</span></label>
+          <label class="option"><input type="radio" name="q3" value="Colectiva y esperanzadora"><span>Colectiva y esperanzadora</span></label>
+          <label class="option"><input type="radio" name="q3" value="Íntima y melancólica"><span>Íntima y melancólica</span></label>
+          <label class="option"><input type="radio" name="q3" value="Irónica y burlona"><span>Irónica y burlona</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 4</div>
+        <div class="q-text">¿Qué se puede interpretar semánticamente de: <em>"eres la voz oscura que señala el fin de lo que brilla"</em>?</div>
+        <div class="options" data-correct="La lluvia anuncia la muerte de la esperanza amorosa">
+          <label class="option"><input type="radio" name="q4" value="La lluvia anuncia la muerte de la esperanza amorosa"><span>La lluvia anuncia la muerte de la esperanza amorosa</span></label>
+          <label class="option"><input type="radio" name="q4" value="La voz habla de una tormenta literal"><span>La voz habla de una tormenta literal</span></label>
+          <label class="option"><input type="radio" name="q4" value="Es un elogio a la naturaleza"><span>Es un elogio a la naturaleza</span></label>
+          <label class="option"><input type="radio" name="q4" value="Refleja indiferencia ante el amor"><span>Refleja indiferencia ante el amor</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════ SECCIÓN 2: Soneto a Cristo ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">II</div>
+      <div class="section-title">Lee el siguiente poema y responde</div>
+    </div>
+
+    <div class="poem-card">
+      <div class="poem-title">Soneto a Cristo Crucificado · Anónimo (Siglo de Oro)</div>
+      <div class="poem-text">No me mueve, mi Dios, para quererte
+el cielo que me tienes prometido,
+ni me mueve el infierno tan temido
+para dejar por eso de ofenderte.
+
+Tú me mueves, Señor; muéveme el verte
+clavado en una cruz y escarnecido;
+muéveme ver tu cuerpo tan herido;
+muévenme tus afrentas y tu muerte.
+
+Muéveme, en fin, tu amor, y en tal manera,
+que aunque no hubiera cielo, yo te amara,
+y aunque no hubiera infierno, te temiera.
+
+No me tienes que dar porque te quiera,
+pues aunque lo que espero no esperara,
+lo mismo que te quiero te quisiera.</div>
+    </div>
+
+    <div class="q-grid">
+      <div class="q-card">
+        <div class="q-num">Pregunta 5</div>
+        <div class="q-text">¿Cuál es el tema central del poema?</div>
+        <div class="options" data-correct="El amor desinteresado a Dios">
+          <label class="option"><input type="radio" name="q5" value="El miedo al infierno"><span>El miedo al infierno</span></label>
+          <label class="option"><input type="radio" name="q5" value="El amor desinteresado a Dios"><span>El amor desinteresado a Dios</span></label>
+          <label class="option"><input type="radio" name="q5" value="La promesa del cielo"><span>La promesa del cielo</span></label>
+          <label class="option"><input type="radio" name="q5" value="El arrepentimiento por pecados"><span>El arrepentimiento por pecados</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 6</div>
+        <div class="q-text">¿Qué figura retórica predomina en: <em>"Tú me mueves, Señor; muéveme el verte / clavado en una cruz"</em>?</div>
+        <div class="options" data-correct="Anáfora">
+          <label class="option"><input type="radio" name="q6" value="Hipérbole"><span>Hipérbole</span></label>
+          <label class="option"><input type="radio" name="q6" value="Epífora"><span>Epífora</span></label>
+          <label class="option"><input type="radio" name="q6" value="Anáfora"><span>Anáfora</span></label>
+          <label class="option"><input type="radio" name="q6" value="Alegoría"><span>Alegoría</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 7</div>
+        <div class="q-text">¿Qué se puede interpretar de: <em>"aunque no hubiera cielo, yo te amara"</em>?</div>
+        <div class="options" data-correct="El amor a Dios es incondicional, no mercenario">
+          <label class="option"><input type="radio" name="q7" value="El hablante teme el juicio final"><span>El hablante teme el juicio final</span></label>
+          <label class="option"><input type="radio" name="q7" value="El amor a Dios es incondicional, no mercenario"><span>El amor a Dios es incondicional, no mercenario</span></label>
+          <label class="option"><input type="radio" name="q7" value="El hablante duda de la existencia del cielo"><span>El hablante duda de la existencia del cielo</span></label>
+          <label class="option"><input type="radio" name="q7" value="Hay una amenaza velada a Dios"><span>Hay una amenaza velada a Dios</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 8</div>
+        <div class="q-text">¿Qué figura retórica hay en: <em>"Maldice y bendíceme con tus lágrimas feroces"</em>?</div>
+        <div class="options" data-correct="Oxímoron / Paradoja">
+          <label class="option"><input type="radio" name="q8" value="Personificación"><span>Personificación</span></label>
+          <label class="option"><input type="radio" name="q8" value="Oxímoron / Paradoja"><span>Oxímoron / Paradoja</span></label>
+          <label class="option"><input type="radio" name="q8" value="Metonimia"><span>Metonimia</span></label>
+          <label class="option"><input type="radio" name="q8" value="Hipérbaton"><span>Hipérbaton</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════ SECCIÓN 3: Julia de Burgos ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">III</div>
+      <div class="section-title">Lee el siguiente poema y responde</div>
+    </div>
+
+    <div class="poem-card">
+      <div class="poem-title">Yo misma fui mi ruta · Julia de Burgos</div>
+      <div class="poem-text">Yo quise ser como los hombres quisieron que yo fuese:
+un intento de vida;
+un juego al escondite con mi ser.
+Pero yo estaba hecha de presentes,
+y mis pies planos sobre la tierra promisora
+no resistían caminar hacia atrás,
+y seguían adelante, adelante,
+burlando las cenizas para alcanzar el beso
+de los senderos nuevos.
+
+A cada paso adelantado en mi ruta hacia el frente
+rasgaba mis espaldas el aleteo desesperado
+de los troncos viejos.
+
+Pero la rama estaba ya desprendida del tronco.
+Y yo seguía.</div>
+    </div>
+
+    <div class="q-grid">
+      <div class="q-card">
+        <div class="q-num">Pregunta 9</div>
+        <div class="q-text">¿Qué refleja el sujeto lírico del poema?</div>
+        <div class="options" data-correct="La lucha por construir su propia identidad contra expectativas ajenas">
+          <label class="option"><input type="radio" name="q9" value="Obediencia a los roles sociales impuestos"><span>Obediencia a los roles sociales impuestos</span></label>
+          <label class="option"><input type="radio" name="q9" value="La lucha por construir su propia identidad contra expectativas ajenas"><span>La lucha por construir su propia identidad contra expectativas ajenas</span></label>
+          <label class="option"><input type="radio" name="q9" value="El deseo de olvidar su pasado"><span>El deseo de olvidar su pasado</span></label>
+          <label class="option"><input type="radio" name="q9" value="Un amor romántico no correspondido"><span>Un amor romántico no correspondido</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 10</div>
+        <div class="q-text">Del poema podemos interpretar que:</div>
+        <div class="options" data-correct="La voz poética rompe con su pasado para avanzar hacia su libertad">
+          <label class="option"><input type="radio" name="q10" value="El sujeto acepta con resignación su destino"><span>El sujeto acepta con resignación su destino</span></label>
+          <label class="option"><input type="radio" name="q10" value="Los 'troncos viejos' simbolizan amigos de la infancia"><span>Los "troncos viejos" simbolizan amigos de la infancia</span></label>
+          <label class="option"><input type="radio" name="q10" value="La voz poética rompe con su pasado para avanzar hacia su libertad"><span>La voz poética rompe con su pasado para avanzar hacia su libertad</span></label>
+          <label class="option"><input type="radio" name="q10" value="El poema celebra la tradición familiar"><span>El poema celebra la tradición familiar</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 11</div>
+        <div class="q-text">¿Qué refleja la voz poética?</div>
+        <div class="options" data-correct="Determinación y liberación personal">
+          <label class="option"><input type="radio" name="q11" value="Nostalgia y culpa"><span>Nostalgia y culpa</span></label>
+          <label class="option"><input type="radio" name="q11" value="Determinación y liberación personal"><span>Determinación y liberación personal</span></label>
+          <label class="option"><input type="radio" name="q11" value="Miedo al futuro y resignación"><span>Miedo al futuro y resignación</span></label>
+          <label class="option"><input type="radio" name="q11" value="Arrepentimiento por abandonar sus raíces"><span>Arrepentimiento por abandonar sus raíces</span></label>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Pregunta 12</div>
+        <div class="q-text">¿Qué figura retórica hay en: <em>"mis pies planos sobre la tierra promisora"</em>?</div>
+        <div class="options" data-correct="Epíteto / Imagen sensorial">
+          <label class="option"><input type="radio" name="q12" value="Metonimia"><span>Metonimia</span></label>
+          <label class="option"><input type="radio" name="q12" value="Hipérbole"><span>Hipérbole</span></label>
+          <label class="option"><input type="radio" name="q12" value="Epíteto / Imagen sensorial"><span>Epíteto / Imagen sensorial</span></label>
+          <label class="option"><input type="radio" name="q12" value="Anáfora"><span>Anáfora</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════ SECCIÓN 4: Ojalá – preguntas abiertas ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">IV</div>
+      <div class="section-title">Lee la siguiente canción y responde</div>
+    </div>
+
+    <div class="poem-card">
+      <div class="poem-title">Ojalá · Silvio Rodríguez</div>
+      <div class="poem-text">Ojalá que las hojas no te toquen el cuerpo cuando caigan
+y que la lluvia olvide tu figura.
+Ojalá que la luna pueda salir sin ti.
+Ojalá que la tierra no te bese los pasos,
+cuando vayas huyendo de mi amor.
+
+Ojalá se te acabe la mirada constante,
+la palabra precisa, la sonrisa perfecta.
+Ojalá pase algo que te borre de pronto:
+una luz cegadora, un disparo de nieve;
+ojalá por lo menos que me lleve la muerte,
+para no verte tanto, para no verte siempre,
+en todos los segundos, en todas las visiones;
+ojalá que no pueda tocarte ni en canciones.</div>
+    </div>
+
+    <div class="open-q">
+      <div class="q-header">
+        <div class="q-num">Pregunta 13</div>
+        <div class="q-text">Identifica las figuras retóricas presentes en la canción:</div>
+      </div>
+      <textarea name="q13" placeholder="Escribe aquí tu respuesta..."></textarea>
+    </div>
+
+    <div class="open-q">
+      <div class="q-header">
+        <div class="q-num">Pregunta 14</div>
+        <div class="q-text">Extrae por campo semántico, voz poética o tema 5 elementos de la canción:</div>
+      </div>
+      <textarea name="q14" placeholder="1. _______________   2. _______________   3. _______________   4. _______________   5. _______________"></textarea>
+    </div>
+
+    <div class="open-q">
+      <div class="q-header">
+        <div class="q-num">Pregunta 15</div>
+        <div class="q-text">Clasifique la métrica del primer verso: nombre, número de sílabas y si es de arte mayor o menor.</div>
+      </div>
+      <textarea name="q15" placeholder="Nombre métrico: _______________   Sílabas: ___   Arte: _______________"></textarea>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════ SECCIÓN 5: Métrica ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">V</div>
+      <div class="section-title">Clasifica la métrica de cada poema: nombre, sílabas y arte mayor o menor</div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="q-num">Pregunta 16</div>
+        <div class="metric-poem">Quiero morir cuando decline el día
+en alta mar y con la cara al cielo,
+donde parezca sueño la agonía,
+y el alma, un ave que remonta el vuelo.</div>
+        <div class="metric-fields">
+          <div class="metric-field"><label>Nombre</label><input type="text" name="q16n" placeholder="ej. endecasílabo"></div>
+          <div class="metric-field"><label>Sílabas</label><input type="number" name="q16s" placeholder="0" min="1" max="20"></div>
+          <div class="metric-field full"><label>Arte</label>
+            <select name="q16a"><option value="">—</option><option>Arte mayor</option><option>Arte menor</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="q-num">Pregunta 17</div>
+        <div class="metric-poem">A sus soledades va
+el pájaro solitario,
+con su pico solitario,
+y en su soledad está</div>
+        <div class="metric-fields">
+          <div class="metric-field"><label>Nombre</label><input type="text" name="q17n" placeholder="ej. heptasílabo"></div>
+          <div class="metric-field"><label>Sílabas</label><input type="number" name="q17s" placeholder="0" min="1" max="20"></div>
+          <div class="metric-field full"><label>Arte</label>
+            <select name="q17a"><option value="">—</option><option>Arte mayor</option><option>Arte menor</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="q-num">Pregunta 18</div>
+        <div class="metric-poem">Si Naturaleza es vida
+y el arte es su reflejo fiel,
+¿qué es más digno de ser amado,
+la rosa o el pincel?</div>
+        <div class="metric-fields">
+          <div class="metric-field"><label>Nombre</label><input type="text" name="q18n" placeholder="ej. octosílabo"></div>
+          <div class="metric-field"><label>Sílabas</label><input type="number" name="q18s" placeholder="0" min="1" max="20"></div>
+          <div class="metric-field full"><label>Arte</label>
+            <select name="q18a"><option value="">—</option><option>Arte mayor</option><option>Arte menor</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="q-num">Pregunta 19</div>
+        <div class="metric-poem">Hombres necios que acusáis
+a la mujer sin razón,
+sin ver que sois la ocasión
+de lo mismo que culpáis:</div>
+        <div class="metric-fields">
+          <div class="metric-field"><label>Nombre</label><input type="text" name="q19n" placeholder="ej. octosílabo"></div>
+          <div class="metric-field"><label>Sílabas</label><input type="number" name="q19s" placeholder="0" min="1" max="20"></div>
+          <div class="metric-field full"><label>Arte</label>
+            <select name="q19a"><option value="">—</option><option>Arte mayor</option><option>Arte menor</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════ SECCIÓN 6: Contexto histórico ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">VI</div>
+      <div class="section-title">Clasifica el poema según su contexto histórico: Romanticista, Medieval, Clasicista, Surrealista o Renacentista</div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="hist-card">
+        <div class="q-num">Pregunta 20</div>
+        <div class="hist-poem">Alba de gracia, norte del camino,
+luz que ilumina el alma cuando cae;
+en ti el peregrino su carga trae,
+y en ti halla el perdido su destino.</div>
+        <div class="hist-field">
+          <label>Contexto histórico</label>
+          <select name="q20"><option value="">— Selecciona —</option><option>Romanticista</option><option>Medieval</option><option>Clasicista</option><option>Surrealista</option><option>Renacentista</option></select>
+        </div>
+      </div>
+      <div class="hist-card">
+        <div class="q-num">Pregunta 21</div>
+        <div class="hist-poem">A las cinco de la tarde.
+Eran las cinco en punto de la tarde.
+Un niño trajo la blanca sábana
+a las cinco de la tarde.</div>
+        <div class="hist-field">
+          <label>Contexto histórico</label>
+          <select name="q21"><option value="">— Selecciona —</option><option>Romanticista</option><option>Medieval</option><option>Clasicista</option><option>Surrealista</option><option>Renacentista</option></select>
+        </div>
+      </div>
+      <div class="hist-card">
+        <div class="q-num">Pregunta 22</div>
+        <div class="hist-poem">Amo, amas,
+amar como el alma ama a Dios,
+amar sin que se sepa por qué se ama,
+sin que exista el amor.</div>
+        <div class="hist-field">
+          <label>Contexto histórico</label>
+          <select name="q22"><option value="">— Selecciona —</option><option>Romanticista</option><option>Medieval</option><option>Clasicista</option><option>Surrealista</option><option>Renacentista</option></select>
+        </div>
+      </div>
+      <div class="hist-card">
+        <div class="q-num">Pregunta 23</div>
+        <div class="hist-poem">La ciudad se viste de plumas amarillas.
+El sol, un huevo frito en el cielo.
+Las ventanas, ojos que lloran estrellas de papel.
+Los ríos, serpientes de agua plateada.</div>
+        <div class="hist-field">
+          <label>Contexto histórico</label>
+          <select name="q23"><option value="">— Selecciona —</option><option>Romanticista</option><option>Medieval</option><option>Clasicista</option><option>Surrealista</option><option>Renacentista</option></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════ SECCIÓN 7: Traducción de fondo / Voz poética ══════════ -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">VII</div>
+      <div class="section-title">Traducción de fondo, campo semántico e identificación de voz poética</div>
+    </div>
+
+    <div class="trans-grid">
+      <div class="trans-card">
+        <div class="q-num">Pregunta 24</div>
+        <div class="trans-poem">Cuando el cielo de invierno se entristece de nieve
+y la luna fría lo ilumina,
+busco el calor del hogar donde vivimos,
+mas sólo encuentro el eco de tu nombre.</div>
+        <div class="trans-instr">Realiza una traducción de fondo. Usa campo semántico.</div>
+        <textarea name="q24" placeholder="Escribe tu interpretación..."></textarea>
+      </div>
+      <div class="trans-card">
+        <div class="q-num">Pregunta 25</div>
+        <div class="trans-poem">En un jardín de luz y primavera,
+donde el viento acaricia la amapola,
+una voz canta, dulce, sola,
+el himno de una patria que se muera.</div>
+        <div class="trans-instr">Realiza una traducción de fondo. Usa campo semántico.</div>
+        <textarea name="q25" placeholder="Escribe tu interpretación..."></textarea>
+      </div>
+      <div class="trans-card">
+        <div class="q-num">Pregunta 26</div>
+        <div class="trans-poem">Cuando el amor se torna en sombra leve,
+¿qué queda de aquel fuego que fue llama?
+Sólo cenizas que el silencio llama
+y el viento arrastra, sin que nada pruebe.</div>
+        <div class="trans-instr">Realiza una traducción de fondo. Usa campo semántico.</div>
+        <textarea name="q26" placeholder="Escribe tu interpretación..."></textarea>
+      </div>
+      <div class="trans-card">
+        <div class="q-num">Pregunta 27</div>
+        <div class="trans-poem">Hay días en que soy tan poca cosa,
+que hasta la sombra me parece ajena;
+y entonces busco en la penúltima escena
+si queda algo de mí que no se posa.</div>
+        <div class="trans-instr">Identifica la voz poética del poema.</div>
+        <textarea name="q27" placeholder="Describe la voz poética..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom padding for fixed bar -->
+  <div style="height:60px"></div>
+</div>
+
+<!-- SUBMIT BAR -->
+<div class="submit-bar">
+  <div class="progress-info" id="prog-text">0 / 19 preguntas respondidas</div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar"></div></div>
+  <button class="btn-submit" onclick="submitExam()">Entregar examen</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2>Examen entregado</h2>
+    <div class="score-display" id="modal-score">—</div>
+    <div class="score-sub" id="modal-detail">Respuestas de opción múltiple calificadas automáticamente</div>
+    <br>
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('active')">Cerrar</button>
+  </div>
+</div>
+
+<script>
+  // Track radio selections
+  document.querySelectorAll('.option input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      // clear siblings
+      const name = this.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+        r.closest('.option').classList.remove('selected');
+      });
+      this.closest('.option').classList.add('selected');
+      updateProgress();
+    });
+  });
+
+  // Track textareas
+  document.querySelectorAll('textarea, select').forEach(el => {
+    el.addEventListener('input', updateProgress);
+    el.addEventListener('change', updateProgress);
+  });
+
+  function countAnswered() {
+    let answered = 0;
+    const total = 19; // 12 MC + 3 open + 4 metric (name) + ... simplified
+    // MC questions 1-12
+    for (let i = 1; i <= 12; i++) {
+      if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+    }
+    // Open 13-15
+    for (let i = 13; i <= 15; i++) {
+      if ((document.querySelector(`[name="q${i}"]`) || {}).value?.trim()) answered++;
+    }
+    // Metric select 16-19 (arte)
+    for (let i = 16; i <= 19; i++) {
+      if ((document.querySelector(`[name="q${i}a"]`) || {}).value) answered++;
+    }
+    // Hist select 20-23
+    for (let i = 20; i <= 23; i++) {
+      if ((document.querySelector(`[name="q${i}"]`) || {}).value) answered++;
+    }
+    return { answered, total: 23 };
+  }
+
+  function updateProgress() {
+    const { answered, total } = countAnswered();
+    document.getElementById('prog-text').textContent = `${answered} / ${total} preguntas respondidas`;
+    document.getElementById('prog-bar').style.width = `${(answered/total)*100}%`;
+
+    // live score estimate (MC only)
+    let correct = 0, mc = 0;
+    for (let i = 1; i <= 12; i++) {
+      const checked = document.querySelector(`input[name="q${i}"]:checked`);
+      const optGroup = document.querySelector(`input[name="q${i}"]`)?.closest('.options');
+      if (checked && optGroup) {
+        mc++;
+        if (checked.value === optGroup.dataset.correct) correct++;
+      }
+    }
+    document.getElementById('live-score').textContent = mc > 0 ? `${Math.round((correct/mc)*100)}%*` : '—';
+  }
+
+  function submitExam() {
+    let correct = 0;
+    const questions = document.querySelectorAll('.options[data-correct]');
+    questions.forEach(optGroup => {
+      const name = optGroup.querySelector('input').name;
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (checked && checked.value === optGroup.dataset.correct) {
+        correct++;
+        optGroup.querySelectorAll('.option').forEach(o => {
+          if (o.querySelector('input').value === optGroup.dataset.correct) {
+            o.style.background = '#e6f4ea';
+            o.style.borderColor = '#4caf50';
+          }
+        });
+      } else {
+        if (checked) checked.closest('.option').style.background = '#fce8e6';
+        optGroup.querySelectorAll('.option').forEach(o => {
+          if (o.querySelector('input').value === optGroup.dataset.correct) {
+            o.style.background = '#e6f4ea';
+            o.style.borderColor = '#4caf50';
+          }
+        });
+      }
+    });
+    const pct = Math.round((correct / questions.length) * 100);
+    document.getElementById('modal-score').textContent = `${pct}%`;
+    document.getElementById('modal-detail').textContent =
+      `${correct} de ${questions.length} respuestas de opción múltiple correctas · Las preguntas abiertas requieren revisión manual.`;
+    document.getElementById('modal').classList.add('active');
+  }
+</script>
+</body>
+</html>
